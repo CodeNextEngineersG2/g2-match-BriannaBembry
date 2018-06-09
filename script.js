@@ -31,80 +31,18 @@ var gameScreen;
 var messageDisplay, livesDisplay;
 var resetButton, musicButton;
 
-function loadImages(){
-  backImage = loadImage("assets/img/back.png"); 
-  transitionImage1 = loadImage("assets/img/transition1.png");
-  transitionImage2 = loadImage("assets/img/transition2.png");
-  transitionImage3 = loadImage("assets/img/transition3.png");
-  boltImage = loadImage("assets/img/bolt.png"); 
-  cloudImage = loadImage("assets/img/cloud.png");
-  heartImage = loadImage("assets/img/heart.png");
-  moonImage = loadImage("assets/img/moon.png"); 
-  smileyImage = loadImage("assets/img/smiley.png");
-  sunImage = loadImage("assets/img/sun.png"); 
-}
-
- function loadAnimations() {
-  boltAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, boltImage"); 
-  cloudAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, cloudImage"); 
-  heartAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, heartImage");
-  moonAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, moonImage");
-  smileyAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, smileyImage");
-  sunAnimation = loadAnimation("backImage, transitionImage1, transitionImage2, transitionImage3, sunImage");
- }
-
-  function preload(){
-  loadImages();
-  loadAnimations(); 
- }
-
- function setup() {
-  gameScreen = createCanvas(790,370); 
-  gameScreen.parent("#game-screen"); 
-  spriteWidth = 120; 
-  spriteHeight = 168; 
-  spriteX = 70; 
-  spriteY = 95; 
-  imageArray = backImage, transitionImage1, transitionImage2, transitionImage3, boltImage, cloudImage, heartImage, moonImage, smileyImage, sunImage; 
-  resizeImages(); 
-  createSprites(); 
-  spriteArray = [boltSprite1, boltSprite2, cloudSprite1, cloudSprite2, heartSprite1, heartSprite2, moonSprite1, moonSprite2,smileySprite1, smileySprite2, sunSprite1, sunSprite2];  
- }
-
- function resizeImages(){
-  for(var i = 0, i<imageArray.length, i++){
-    imageArray[i].resize(spriteWidth, spriteHeight); 
-  }
- }
-
- function createSprites(){
-  boltSprite1 = createSprite(0,0,spriteWidth, spriteHeight); 
-  boltSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
-  cloudSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
-  cloudSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
-  heartSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
-  heartSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
-  moonSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
-  moonSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
-  smileySprite1 = createSprite(0,0,spriteWidth, spriteHeight);
-  smileySprite2 = createSprite(0,0,spriteWidth, spriteHeight);
-  sunSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
-  sunSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
- }
 
  function addAnimations(){
   var animations = [boltAnimation, boltAnimation, cloudAnimation, cloudAnimation, heartAnimation, heartAnimation, moonAnimation, moonAnimation, smileyAnimation, smileyAnimation, 
-    sunAnimation, sunAnimation]; 
-  for(var i = 0, i<spriteArray.length, i++) {
+      sunAnimation, sunAnimation]; 
+  for(var i = 0; i<spriteArray.length; i++) {
   spriteArray[i].addAnimation("flip", animations[i]);
   spriteArray[i].animation.frameDelay = 10; 
   spriteArray[i].animation.looping = false; 
   spriteArray[i].animation.playing = false; 
+  activateSprite(spriteArray[i]); 
   }
  }
-
- 
-
 
 /*
  * function loadImages()
@@ -117,6 +55,19 @@ function loadImages(){
      myImage = loadImage("assets/img/image.png");
    }
  */
+
+ function loadImages(){
+  backImage = loadImage("assets/img/back.png"); 
+  transitionImage1 = loadImage("assets/img/transition1.png");
+  transitionImage2 = loadImage("assets/img/transition2.png");
+  transitionImage3 = loadImage("assets/img/transition3.png");
+  boltImage = loadImage("assets/img/bolt.png"); 
+  cloudImage = loadImage("assets/img/cloud.png");
+  heartImage = loadImage("assets/img/heart.png");
+  moonImage = loadImage("assets/img/moon.png"); 
+  smileyImage = loadImage("assets/img/smiley.png");
+  sunImage = loadImage("assets/img/sun.png"); 
+}
 
 
 /*
@@ -131,6 +82,15 @@ function loadImages(){
    }
  */
 
+  function loadAnimations(){
+  boltAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, boltImage); 
+  cloudAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, cloudImage); 
+  heartAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, heartImage);
+  moonAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, moonImage);
+  smileyAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, smileyImage);
+  sunAnimation = loadAnimation(backImage, transitionImage1, transitionImage2, transitionImage3, sunImage);
+ }
+
 
 /*
  * function loadSounds()
@@ -144,8 +104,6 @@ function loadImages(){
  */
 
 
-
-
 /*
  * function preload()
  * Called automatically by p5.play. Loads all assets for your game (e.g.,
@@ -153,6 +111,11 @@ function loadImages(){
  * begin running until the assets are loaded and ready. Therefore, this function
  * is essentially a "pre-setup" function. 
  */
+
+ function preload() {
+  loadImages(); 
+  loadAnimations(); 
+ }
 
 
 /*
@@ -162,10 +125,36 @@ function loadImages(){
  * function is called.
  */
 
+ function setup() {
+  gameScreen = createCanvas(790,370); 
+  gameScreen.parent("#game-screen");
+  spriteWidth = 120; 
+  spriteHeight = 168;
+  spriteX = 70; 
+  spriteY = 95; 
+  imageArray = [backImage, transitionImage1, transitionImage2, transitionImage3, boltImage, cloudImage, heartImage, moonImage, smileyImage, sunImage];
+  resizeImages(); 
+  createSprites(); 
+  spriteArray = [boltSprite1, boltSprite2, cloudSprite1, cloudSprite2, heartSprite1, heartSprite2, moonSprite1, moonSprite2, smileySprite1, smileySprite2, sunSprite1, sunSprite2]; 
+  addAnimations(); 
+  shuffle(spriteArray, true); 
+  placeSprites(); 
+  spritesActive = true; 
+  matches = 0; 
+  lives = 5; 
+  firstChoice = undefined; 
+  secondChoice = undefined; 
+ }
+
 
 /*
  * function draw()
  */
+
+ function draw() {
+  background(144, 12, 63); 
+  drawSprites(); 
+ }
 
 /*
  * function init()
@@ -198,6 +187,12 @@ function loadImages(){
    image.resize(40, 50);
  */
 
+ function resizeImages() {
+  for (var i = 0; i<imageArray.length; i++){
+    imageArray[i].resize(spriteWidth, spriteHeight); 
+  }
+}
+
 
 /*
  * function createSprites()
@@ -212,6 +207,21 @@ function loadImages(){
    }
  */
 
+ function createSprites(){
+  boltSprite1 = createSprite(0,0,spriteWidth, spriteHeight); 
+  boltSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+  cloudSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
+  cloudSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+  heartSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
+  heartSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+  moonSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
+  moonSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+  smileySprite1 = createSprite(0,0,spriteWidth, spriteHeight);
+  smileySprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+  sunSprite1 = createSprite(0,0,spriteWidth, spriteHeight);
+  sunSprite2 = createSprite(0,0,spriteWidth, spriteHeight);
+ }
+
 
 /*
  * function addAnimations()
@@ -222,7 +232,16 @@ function loadImages(){
  * function calls activateSprite(s) with each sprite as input.
  */
 
-
+function addAnimations(){
+  var animations = [boltAnimation, boltAnimation, cloudAnimation, cloudAnimation, heartAnimation, heartAnimation, moonAnimation, moonAnimation, smileyAnimation, smileyAnimation, sunAnimation, sunAnimation]; 
+  for (var i = 0; i<spriteArray.length; i++){
+    spriteArray[i].addAnimation("flip", animations[i]); 
+    spriteArray[i].animation.frameDelay = 10; 
+    spriteArray[i].animation.looping = false; 
+    spriteArray[i].animation.playing = false; 
+    activateSprite(spriteArray[i]); 
+  }
+}
 /*
  * function placeSprites()
  * Places all sprites in spriteArray on the game screen, according to any
@@ -230,6 +249,19 @@ function loadImages(){
  * grid-like pattern (e.g., 2x2 if you only have four sprites).
  */
 
+function placeSprites(){
+  for(var i = 0; i<spriteArray.length; i++){
+    spriteArray[i].position.x = spriteX; 
+    spriteArray[i].position.y = spriteY; 
+    if((i+1)%6 === 0){
+      spriteX = 70; 
+      spriteY = spriteY + spriteHeight + 10; 
+    }
+    else{
+      spriteX = spriteX + spriteWidth + 10;  
+    }
+  }
+}
 
 /*
  * function activateSprite(s)
@@ -242,6 +274,22 @@ function loadImages(){
  * spriteOne and spriteTwo to sprites in the order tht they are clicked. When
  * two sprites have been clicked, the function calls checkMatch().
  */
+
+ function activateSprite(s){
+  s.onMousePressed = function(){
+    if(spritesActive == true && s.animation.getFrame() !== s.animation.getLastFrame()){
+      if(firstChoice === undefined){
+        firstChoice = s; 
+        s.animation.goToFrame(s.animation.getLastFrame()); 
+      }
+      else if(firstChoice !== s){
+        secondChoice = s;  
+        s.animation.goToFrame(s.animation.getLastFrame()); 
+        checkMatch(); 
+      }
+    }
+  }
+}
 
 
 
@@ -258,11 +306,58 @@ function loadImages(){
  * reset and try again with a fresh shuffle.
  */
 
-/*
- * function flipAllSprites()
+function checkMatch(){
+  var boltMatch = (firstChoice === boltSprite1 && secondChoice === boltSprite2) || (firstChoice === boltSprite2 && secondChoice === boltSprite1); 
+  var cloudMatch = (firstChoice === cloudSprite1 && secondChoice === cloudSprite2) || (firstChoice === cloudSprite2 && secondChoice === cloudSprite1); 
+  var heartMatch = (firstChoice === heartSprite1 && secondChoice === heartSprite2) || (firstChoice === heartSprite2 && secondChoice === heartSprite1); 
+  var moonMatch = (firstChoice === moonSprite1 && secondChoice === moonSprite2) || (firstChoice === moonSprite2 && secondChoice === moonSprite1); 
+  var smileyMatch = (firstChoice === smileySprite1 && secondChoice === smileySprite2) || (firstChoice === smileySprite2 && secondChoice === smileySprite1); 
+  var sunMatch = (firstChoice === sunSprite1 && secondChoice === sunSprite2) || (firstChoice === sunSprite2 && secondChoice === sunSprite1); 
+
+  if(boltMatch || cloudMatch || heartMatch || moonMatch || smileyMatch || sunMatch == true){
+    matches++; 
+    if(matches == spriteArray.length){
+      spritesActive = false; 
+      setTimeout(function(){
+        alert("You Win!!"); 
+      }, 2000); 
+    }
+    else{
+      firstChoice = undefined; 
+      secondChoice = undefined; 
+    }
+  }
+  else{
+    lives--; 
+    spritesActive = false; 
+    if(lives == 0){
+      setTimeout(function(){
+        flipAllSprites(); 
+        alert("You Lost!");
+      }, 2000)
+    }
+    else{
+      setTimeout(function(){ 
+        firstChoice.animation.goToFrame(0);
+        secondChoice.animation.goToFrame(0); 
+        firstChoice = undefined; 
+        secondChoice = undefined; 
+        spritesActive = true; 
+      }, 2000)
+    }
+  }
+}
+
+ /* function flipAllSprites()
  * Flips all sprites in spriteArray to their last animation frame (i.e.,
  * "face-up").
  */
+
+ function flipAllSprites(){
+  for(var i = 0; i < spriteArray.length; i++){
+    spriteArray[i].animation.getLastFrame(); 
+  } 
+}
 
  /*
   * function resetAllSprites()
